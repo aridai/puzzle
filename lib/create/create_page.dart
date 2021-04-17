@@ -7,6 +7,8 @@ import 'package:puzzle/puzzle/puzzle_page_args.dart';
 class CreatePage extends StatelessWidget {
   static const Path = '/create';
 
+  final _controller = TextEditingController(text: _defaultImgSrc);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,8 +22,18 @@ class CreatePage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(32),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 800),
+                child: TextField(controller: _controller),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(32),
               child: ElevatedButton(
-                onPressed: () => _toPuzzlePage(context),
+                onPressed: () {
+                  final imgSrc = _controller.value.text;
+                  _toPuzzlePage(context, imgSrc);
+                },
                 child: const Text('パズルページへ'),
               ),
             ),
@@ -31,7 +43,7 @@ class CreatePage extends StatelessWidget {
     );
   }
 
-  void _toPuzzlePage(BuildContext context) {
+  void _toPuzzlePage(BuildContext context, String src) {
     final args = PuzzlePageArgs(PuzzleSettings.defaultSettings, src);
     final route = MaterialPageRoute<void>(
       settings: RouteSettings(name: '${PuzzlePage.Path}?${args.queryParams}'),
@@ -42,5 +54,5 @@ class CreatePage extends StatelessWidget {
   }
 }
 
-const src = 'https://github.com/aridai/puzzle'
+const _defaultImgSrc = 'https://github.com/aridai/puzzle'
     '/blob/master/web/icons/Icon-512.png?raw=true';
