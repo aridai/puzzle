@@ -44,7 +44,7 @@ class CreatePage extends StatelessWidget {
   }
 
   void _toPuzzlePage(BuildContext context, String src) {
-    final args = PuzzlePageArgs(PuzzleSettings.defaultSettings, src);
+    final args = PuzzlePageArgs(PuzzleSettings.defaultSettings, src, null);
     final route = MaterialPageRoute<void>(
       settings: RouteSettings(name: '${PuzzlePage.Path}?${args.queryParams}'),
       builder: (_) => PuzzlePage(args: args),

@@ -21,6 +21,7 @@ class PuzzlePage extends StatelessWidget {
       create: (context) => PuzzlePageBloc(
         args.src,
         args.settings,
+        args.seed,
         PuzzleCreator(),
         PuzzleShuffler(),
       ),
