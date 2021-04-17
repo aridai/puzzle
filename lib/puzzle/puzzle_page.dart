@@ -1,24 +1,5 @@
 import 'package:flutter/material.dart';
-
-/// パズルページの引数
-class PuzzlePageArgs {
-  PuzzlePageArgs(this.src);
-
-  /// 画像の取得元URL
-  final String src;
-
-  /// クエリパラメタのパースを試行する。
-  static PuzzlePageArgs? tryParseParams(Map<String, List<String>>? params) {
-    if (params == null) return null;
-
-    final srcParam = params['src'];
-    if (srcParam == null || srcParam.length != 1) return null;
-    final src = srcParam.first;
-    if (src.trim().isEmpty) return null;
-
-    return PuzzlePageArgs(src);
-  }
-}
+import 'package:puzzle/puzzle/puzzle_page_args.dart';
 
 /// パズルページ
 class PuzzlePage extends StatelessWidget {
@@ -41,11 +22,13 @@ class PuzzlePage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(32),
-              child: Text('src: ${args.src}'),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(32),
               child: SelectableText(Uri.base.toString()),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(32),
+                child: Image.network(args.src, width: 300),
+              ),
             ),
           ],
         ),

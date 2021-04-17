@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:puzzle/create/create_page.dart';
 import 'package:puzzle/home/home_page.dart';
 import 'package:puzzle/puzzle/puzzle_page.dart';
+import 'package:puzzle/puzzle/puzzle_page_args.dart';
 
 /// パズルアプリ
 class PuzzleApp extends StatelessWidget {

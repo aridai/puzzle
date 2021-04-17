@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:puzzle/puzzle/puzzle.dart';
 import 'package:puzzle/puzzle/puzzle_page.dart';
+import 'package:puzzle/puzzle/puzzle_page_args.dart';
 
 /// 作成ページ
 class CreatePage extends StatelessWidget {
@@ -19,17 +21,7 @@ class CreatePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(32),
               child: ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      settings: const RouteSettings(
-                        name: '${PuzzlePage.Path}?src=test',
-                      ),
-                      builder: (_) => PuzzlePage(args: PuzzlePageArgs('test')),
-                    ),
-                  );
-                },
+                onPressed: () => _toPuzzlePage(context),
                 child: const Text('パズルページへ'),
               ),
             ),
@@ -38,4 +30,17 @@ class CreatePage extends StatelessWidget {
       ),
     );
   }
+
+  void _toPuzzlePage(BuildContext context) {
+    final args = PuzzlePageArgs(PuzzleSettings.defaultSettings, src);
+    final route = MaterialPageRoute<void>(
+      settings: RouteSettings(name: '${PuzzlePage.Path}?${args.queryParams}'),
+      builder: (_) => PuzzlePage(args: args),
+    );
+
+    Navigator.push(context, route);
+  }
 }
+
+const src = 'https://github.com/aridai/puzzle'
+    '/blob/master/web/icons/Icon-512.png?raw=true';
