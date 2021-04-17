@@ -1,16 +1,18 @@
 import 'package:puzzle/puzzle/puzzle.dart';
 import 'package:puzzle/puzzle/puzzle_creator.dart';
+import 'package:puzzle/puzzle/puzzle_shuffler.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// パズルページのBLoC
 class PuzzlePageBloc {
-  PuzzlePageBloc(this._src, this._settings, this._creator) {
+  PuzzlePageBloc(this._src, this._settings, this._creator, this._shuffler) {
     _loadPuzzle();
   }
 
   final String _src;
   final PuzzleSettings _settings;
   final PuzzleCreator _creator;
+  final PuzzleShuffler _shuffler;
 
   final _isLoading = BehaviorSubject.seeded(true);
   final _puzzle = BehaviorSubject<Puzzle?>.seeded(null);
@@ -60,6 +62,7 @@ class PuzzlePageBloc {
     result.when(
       //  成功時
       success: (puzzle) {
+        _shuffler.shuffle(puzzle);
         _puzzle.add(puzzle);
         _isLoading.add(false);
       },

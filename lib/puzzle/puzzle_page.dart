@@ -5,6 +5,7 @@ import 'package:puzzle/puzzle/puzzle_board.dart';
 import 'package:puzzle/puzzle/puzzle_creator.dart';
 import 'package:puzzle/puzzle/puzzle_page_args.dart';
 import 'package:puzzle/puzzle/puzzle_page_bloc.dart';
+import 'package:puzzle/puzzle/puzzle_shuffler.dart';
 
 /// パズルページ
 class PuzzlePage extends StatelessWidget {
@@ -21,6 +22,7 @@ class PuzzlePage extends StatelessWidget {
         args.src,
         args.settings,
         PuzzleCreator(),
+        PuzzleShuffler(),
       ),
       dispose: (context, bloc) => bloc.dispose(),
       child: _PuzzlePage(),
