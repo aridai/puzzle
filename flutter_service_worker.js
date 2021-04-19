@@ -7,13 +7,13 @@ const RESOURCES = {
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "manifest.json": "818d6776f3c74a0c02117ce76190083f",
-"index.html": "48bc27b3bef6f605d6dce21fbd97b816",
-"/": "48bc27b3bef6f605d6dce21fbd97b816",
+"index.html": "962bbbffbc8609206c0b6718033de288",
+"/": "962bbbffbc8609206c0b6718033de288",
 "assets/NOTICES": "8e4c3b72520d8116819e556a86791cf1",
 "assets/fonts/MaterialIcons-Regular.otf": "1288c9e28052e028aba623321f7826ac",
 "assets/AssetManifest.json": "99914b932bd37a50b983c5e7c90ae93b",
 "assets/FontManifest.json": "7b2a36307916a9721811788013e65289",
-"main.dart.js": "e789003ff97a0bfd5de39f62bcc20257",
+"main.dart.js": "363c90fb04e05745447dc7c565ca312e",
 "version.json": "442ac09d93dbe1e6777830a78b5f4673"
 };
 
