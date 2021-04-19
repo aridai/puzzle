@@ -43,7 +43,7 @@ class Puzzle {
   List<Piece> get pieces => _pieces;
 
   /// パズルが完成しているかどうか
-  bool get isCompleted => !_pieces.none((p) => p.originalPos != p.currentPos);
+  bool get isCompleted => _pieces.none((p) => p.originalPos != p.currentPos);
 
   /// ピースを移動する。
   void move(Piece piece) {
