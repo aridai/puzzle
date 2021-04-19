@@ -19,6 +19,7 @@ class PuzzlePageBloc {
   final _isLoading = BehaviorSubject.seeded(true);
   final _puzzle = BehaviorSubject<Puzzle?>.seeded(null);
   final _completeDialogEvent = PublishSubject<void>();
+  final _sourceImageDialogEvent = PublishSubject<String>();
 
   /// ProgressIndicatorの可視性
   Stream<bool> get isProgressIndicatorVisible => _isLoading.stream;
@@ -45,6 +46,9 @@ class PuzzlePageBloc {
   /// 完成ダイアログの表示を通知するイベント
   Stream<void> get completeDialogEvent => _completeDialogEvent.stream;
 
+  /// 元画像ダイアログの表示を通知するイベント
+  Stream<String> get sourceImageDialogEvent => _sourceImageDialogEvent.stream;
+
   /// ピースが選択されたとき。
   void onPieceSelected(Piece piece) {
     if (piece.isMovable) {
@@ -60,11 +64,17 @@ class PuzzlePageBloc {
     }
   }
 
+  /// 元画像の表示が要求されたとき。
+  void onSourceImageRequested() {
+    _sourceImageDialogEvent.add(_src);
+  }
+
   /// 終了処理を行う。
   void dispose() {
     _isLoading.close();
     _puzzle.close();
     _completeDialogEvent.close();
+    _sourceImageDialogEvent.close();
   }
 
   //  パズルを読み込む。

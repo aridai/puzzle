@@ -48,6 +48,9 @@ class _PuzzlePageState extends State<_PuzzlePage> {
     bloc.completeDialogEvent
         .listen((_) => _showCompleteDialog())
         .addTo(_compositeSubscription);
+    bloc.sourceImageDialogEvent
+        .listen(_showSourceImageDialog)
+        .addTo(_compositeSubscription);
   }
 
   @override
@@ -55,7 +58,42 @@ class _PuzzlePageState extends State<_PuzzlePage> {
     final bloc = Provider.of<PuzzlePageBloc>(context);
 
     return Scaffold(
-      body: Container(
+      endDrawer: _buildDrawer(bloc),
+      body: _buildBody(bloc),
+      floatingActionButton: _buildFloatingActionButton(bloc),
+    );
+  }
+
+  @override
+  void dispose() {
+    _compositeSubscription.dispose();
+    super.dispose();
+  }
+
+  //  Drawerを生成する。
+  Widget _buildDrawer(PuzzlePageBloc bloc) => Drawer(
+        child: Center(
+          child: ElevatedButton(
+            onPressed: () {
+              //  Drawerを閉じて、元画像ダイアログの表示要求を投げる。
+              Navigator.pop(context);
+              bloc.onSourceImageRequested();
+            },
+            child: const Text('元の画像を表示'),
+          ),
+        ),
+      );
+
+  //  FloatingActionButtonを生成する。
+  Widget _buildFloatingActionButton(PuzzlePageBloc bloc) => Builder(
+        builder: (context) => FloatingActionButton(
+          onPressed: () => Scaffold.of(context).openEndDrawer(),
+          child: const Icon(Icons.menu),
+        ),
+      );
+
+  //  ボディ部を生成する。
+  Widget _buildBody(PuzzlePageBloc bloc) => Container(
         color: Colors.grey,
         child: Center(
           child: StreamBuilder<bool>(
@@ -72,15 +110,7 @@ class _PuzzlePageState extends State<_PuzzlePage> {
             },
           ),
         ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _compositeSubscription.dispose();
-    super.dispose();
-  }
+      );
 
   //  コンテンツを生成する。
   Widget _buildContent(PuzzlePageBloc bloc) {
@@ -118,6 +148,16 @@ class _PuzzlePageState extends State<_PuzzlePage> {
       builder: (context) => const AlertDialog(
         title: Text('おめでとうございます!'),
         content: Text('パズルが完成しました!'),
+      ),
+    );
+  }
+
+  //  元画像ダイアログを表示する。
+  void _showSourceImageDialog(String imgSrc) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: Image.network(imgSrc),
       ),
     );
   }
