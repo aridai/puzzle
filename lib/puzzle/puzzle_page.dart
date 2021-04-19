@@ -6,6 +6,7 @@ import 'package:puzzle/puzzle/puzzle_creator.dart';
 import 'package:puzzle/puzzle/puzzle_page_args.dart';
 import 'package:puzzle/puzzle/puzzle_page_bloc.dart';
 import 'package:puzzle/puzzle/puzzle_shuffler.dart';
+import 'package:rxdart/rxdart.dart';
 
 /// パズルページ
 class PuzzlePage extends StatelessWidget {
@@ -37,6 +38,18 @@ class _PuzzlePage extends StatefulWidget {
 }
 
 class _PuzzlePageState extends State<_PuzzlePage> {
+  final _compositeSubscription = CompositeSubscription();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    final bloc = Provider.of<PuzzlePageBloc>(context);
+    bloc.completeDialogEvent
+        .listen((_) => _showCompleteDialog())
+        .addTo(_compositeSubscription);
+  }
+
   @override
   Widget build(BuildContext context) {
     final bloc = Provider.of<PuzzlePageBloc>(context);
@@ -61,6 +74,12 @@ class _PuzzlePageState extends State<_PuzzlePage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _compositeSubscription.dispose();
+    super.dispose();
   }
 
   //  コンテンツを生成する。
@@ -88,6 +107,17 @@ class _PuzzlePageState extends State<_PuzzlePage> {
             onPieceSelected: bloc.onPieceSelected,
           ),
         ),
+      ),
+    );
+  }
+
+  //  完成ダイアログを表示する。
+  void _showCompleteDialog() {
+    showDialog<void>(
+      context: context,
+      builder: (context) => const AlertDialog(
+        title: Text('おめでとうございます!'),
+        content: Text('パズルが完成しました!'),
       ),
     );
   }

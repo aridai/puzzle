@@ -18,6 +18,7 @@ class PuzzlePageBloc {
 
   final _isLoading = BehaviorSubject.seeded(true);
   final _puzzle = BehaviorSubject<Puzzle?>.seeded(null);
+  final _completeDialogEvent = PublishSubject<void>();
 
   /// ProgressIndicatorの可視性
   Stream<bool> get isProgressIndicatorVisible => _isLoading.stream;
@@ -41,12 +42,21 @@ class PuzzlePageBloc {
   Stream<bool> get isShuffleButtonVisible =>
       _puzzle.map((puzzle) => puzzle != null);
 
+  /// 完成ダイアログの表示を通知するイベント
+  Stream<void> get completeDialogEvent => _completeDialogEvent.stream;
+
   /// ピースが選択されたとき。
   void onPieceSelected(Piece piece) {
     if (piece.isMovable) {
+      //  移動可能なピースが選択された場合、移動処理を行い、更新を通知する。
       final puzzle = _puzzle.requireValue!;
       puzzle.move(piece);
       _puzzle.add(puzzle);
+
+      //  パズルが完成したのならば、完成ダイアログの表示を通知する。
+      if (puzzle.isCompleted) {
+        _completeDialogEvent.add(null);
+      }
     }
   }
 
@@ -54,6 +64,7 @@ class PuzzlePageBloc {
   void dispose() {
     _isLoading.close();
     _puzzle.close();
+    _completeDialogEvent.close();
   }
 
   //  パズルを読み込む。
