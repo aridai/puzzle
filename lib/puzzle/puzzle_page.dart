@@ -6,6 +6,7 @@ import 'package:puzzle/puzzle/puzzle_creator.dart';
 import 'package:puzzle/puzzle/puzzle_page_args.dart';
 import 'package:puzzle/puzzle/puzzle_page_bloc.dart';
 import 'package:puzzle/puzzle/puzzle_shuffler.dart';
+import 'package:puzzle/share.dart';
 import 'package:rxdart/rxdart.dart';
 
 /// パズルページ
@@ -72,14 +73,25 @@ class _PuzzlePageState extends State<_PuzzlePage> {
 
   //  Drawerを生成する。
   Widget _buildDrawer(PuzzlePageBloc bloc) => Drawer(
-        child: Center(
-          child: ElevatedButton(
-            onPressed: () {
-              //  Drawerを閉じて、元画像ダイアログの表示要求を投げる。
-              Navigator.pop(context);
-              bloc.onSourceImageRequested();
-            },
-            child: const Text('元の画像を表示'),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16),
+          child: Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.image),
+                title: const Text('元の画像を表示'),
+                onTap: () {
+                  //  Drawerを閉じて、元画像ダイアログの表示要求を投げる。
+                  Navigator.pop(context);
+                  bloc.onSourceImageRequested();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.share),
+                title: const Text('共有'),
+                onTap: () => shareCurrentPage('パズル'),
+              ),
+            ],
           ),
         ),
       );
